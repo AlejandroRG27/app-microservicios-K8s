@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment  # Tipo: Deployment
+metadata:
+  name: notificaciones-deployment
+spec: #especificación principal definense as especificacións do deployment
+  replicas: 3  # Número de pods (empieza con 1, puedes escalar después)
+  selector: #Define como el Deployment elige el pod que gestiona
+    matchLabels:
+      app: notificaciones #nombre aplicación
+  template:
+    metadata: #nombres, etiquetas, etc
+      labels:
+        app: notificaciones # ten que conincidir co nome de matchLabels
+    spec: #Especificación do pod dentro da plantilla
+      containers:
+      - name: notificaciones
+        image: notificaciones:latest  # Tu imagen Docker
+        ports:
+        - containerPort: 8000  # Puerto del contenedor
+        imagePullPolicy: IfNotPresent

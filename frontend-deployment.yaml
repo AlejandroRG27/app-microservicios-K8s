@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment  # Tipo: Deployment
+metadata:
+  name: frontend-deployment
+spec: #especificación principal definense as especificacións do deployment
+  replicas: 1  # Número de pods (empieza con 1, puedes escalar después)
+  selector: #Define como el Deployment elige el pod que gestiona
+    matchLabels:
+      app: frontend #nombre aplicación
+  template:
+    metadata: #nombres, etiquetas, etc
+      labels:
+        app: frontend # ten que conincidir co nome de matchLabels
+      annotations:  # Agrega esto
+        rollout-time: 2025-08-20-11:00
+    spec: #Especificación do pod dentro da plantilla
+      containers:
+      - name: frontend
+        image: frontend:v3  # Tu imagen Docker
+        ports:
+        - containerPort: 80  # Puerto del contenedor
+        imagePullPolicy: IfNotPresent

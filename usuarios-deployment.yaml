@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment  # Tipo: Deployment
+metadata:
+  name: usuarios-deployment
+spec:
+  replicas: 1  # Número de pods (empieza con 1, puedes escalar después)
+  selector:
+    matchLabels:
+      app: usuarios
+  template:
+    metadata:
+      labels:
+        app: usuarios
+    spec:
+      containers:
+      - name: usuarios
+        image: usuarios:latest  # Tu imagen Docker
+        ports:
+        - containerPort: 8000  # Puerto del contenedor
+        imagePullPolicy: IfNotPresent  #Fuerza usar la imagen local
+        volumeMounts:  # Agrega esto
+          - mountPath: /app/db  # Path en el contenedor para DB
+            name: usuarios-storage
+      volumes:  # Agrega esto
+        - name: usuarios-storage
+          persistentVolumeClaim:
+            claimName: usuarios-pvc

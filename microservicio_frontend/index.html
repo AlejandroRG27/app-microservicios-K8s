@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <title>Gestión de Tareas</title>
+</head>
+<body>
+  <h1>Usuarios</h1>
+  <button onclick="listarUsuarios()">Listar Usuarios</button>
+  <pre id="usuarios-output"></pre>
+
+  <h1>Tareas</h1>
+  <button onclick="listarTareas()">Listar Tareas</button>
+  <pre id="tareas-output"></pre>
+
+  <h1>Notificaciones</h1>
+  <input type="text" id="tarea-uuid" placeholder="UUID de Tarea">
+  <button onclick="enviarNotificacion()">Enviar Notificación</button>
+  <pre id="notificaciones-output"></pre>
+
+  <script>
+    const apiUsuarios = 'http://127.0.0.1:52516/api/usuarios/';
+    const apiTareas = 'http://127.0.0.1:64680/api/tareas/';
+    const apiNotificaciones = 'http://127.0.0.1:50418/api/notificar/';
+
+    async function listarUsuarios() {
+      const response = await fetch(apiUsuarios);
+      const data = await response.json();
+      document.getElementById('usuarios-output').innerText = JSON.stringify(data, null, 2); 
+    }
+
+    async function listarTareas() {
+      const response = await fetch(apiTareas);
+      const data = await response.json();
+      document.getElementById('tareas-output').innerText = JSON.stringify(data, null, 2);
+    }
+
+    async function enviarNotificacion() {
+      const uuid = document.getElementById('tarea-uuid').value;
+      const response = await fetch(`${apiNotificaciones}${uuid}/`, { method: 'POST' });
+      const data = await response.json();
+      document.getElementById('notificaciones-output').innerText = JSON.stringify(data, null, 2);
+    }
+  </script>
+</body>
+</html>
