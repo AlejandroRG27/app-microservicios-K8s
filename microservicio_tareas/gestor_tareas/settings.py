@@ -76,7 +76,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'gestor_tareas.wsgi.application'
+WSGI_APPLICATION = 'microservicio_tareas.wsgi.application'
 
 
 # Database

@@ -14,14 +14,27 @@ spec:
     spec:
       containers:
       - name: usuarios
-        image: usuarios:latest  # Tu imagen Docker
+        image: usuarios:latest
         ports:
         - containerPort: 8000  # Puerto del contenedor
         imagePullPolicy: IfNotPresent  #Fuerza usar la imagen local
-        volumeMounts:  # Agrega esto
+        volumeMounts:  
           - mountPath: /app/db  # Path en el contenedor para DB
             name: usuarios-storage
-      volumes:  # Agrega esto
+      volumes:  
         - name: usuarios-storage
           persistentVolumeClaim:
             claimName: usuarios-pvc
+---
+apiVersion: v1
+kind: Service  # Tipo: Service
+metadata:
+  name: usuarios-service
+spec:
+  selector:
+    app: usuarios  # Apunta al Deployment
+  ports:
+  - protocol: TCP
+    port: 80  # Puerto del service
+    targetPort: 8000  # Puerto del pod
+  type: NodePort  # Accesible desde fuera (para pruebas locales)
