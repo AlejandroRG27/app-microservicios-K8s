@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: tareas-pv
+spec:
+  storageClassName: manual #Especifica que clase de almacenamiento se usa para el volumen persistente
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce  # Acceso por un pod a la vez, dos pod no pueden usar el mismo PV
+  hostPath:
+    path: /data/tareas-db  # Directorio en Minikube (creado auto)
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: tareas-pvc
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
